@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ClipConvert</RootNamespace>
+    <AssemblyName>ClipConvert</AssemblyName>
+    <Version>1.0.0</Version>
+    <Company>DeKode</Company>
+    <Product>ClipConvert</Product>
+    <Copyright>Copyright (c) 2026 DeKode</Copyright>
+    <Description>Markdown - Rich Text Clipboard Converter</Description>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Markdown → HTML -->
+    <PackageReference Include="Markdig" Version="0.37.*" />
+
+    <!-- HTML → Markdown -->
+    <PackageReference Include="ReverseMarkdown" Version="4.*" />
+
+    <!-- JSON Settings -->
+    <PackageReference Include="System.Text.Json" Version="8.*" />
+  </ItemGroup>
+
+</Project>

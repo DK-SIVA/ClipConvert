@@ -1,0 +1,20 @@
+# Build results
+bin/
+obj/
+publish/
+output/
+
+# IDE
+.vs/
+*.user
+*.suo
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Settings
+*.DotSettings.user
+
+# Inno Setup temp
+ClipConvert/installer/Output/

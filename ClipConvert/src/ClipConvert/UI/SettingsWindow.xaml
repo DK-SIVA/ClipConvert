@@ -1,0 +1,75 @@
+<Window x:Class="ClipConvert.UI.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ClipConvert – Einstellungen"
+        Width="480" Height="320"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        ShowInTaskbar="True"
+        Topmost="True">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold"
+                   Text="Tastenkombinationen"/>
+
+        <!-- Hotkey: To Markdown -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" VerticalAlignment="Center"
+                       Text="→ Markdown einfügen:"/>
+            <TextBox Grid.Column="1" x:Name="TxtMarkdownHotkey"
+                     IsReadOnly="True" FontWeight="Bold" FontSize="14"
+                     Padding="8,4" Cursor="Hand"
+                     Background="#F5F5F5"
+                     PreviewKeyDown="TxtMarkdownHotkey_PreviewKeyDown"
+                     GotFocus="HotkeyBox_GotFocus"
+                     LostFocus="HotkeyBox_LostFocus"/>
+        </Grid>
+
+        <!-- Hotkey: To Rich Text -->
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" VerticalAlignment="Center"
+                       Text="→ Rich Text einfügen:"/>
+            <TextBox Grid.Column="1" x:Name="TxtRichTextHotkey"
+                     IsReadOnly="True" FontWeight="Bold" FontSize="14"
+                     Padding="8,4" Cursor="Hand"
+                     Background="#F5F5F5"
+                     PreviewKeyDown="TxtRichTextHotkey_PreviewKeyDown"
+                     GotFocus="HotkeyBox_GotFocus"
+                     LostFocus="HotkeyBox_LostFocus"/>
+        </Grid>
+
+        <!-- Hint -->
+        <TextBlock Grid.Row="6" Foreground="Gray" FontSize="11" TextWrapping="Wrap"
+                   Text="Klicke in ein Feld und drücke die gewünschte Tastenkombination (z.B. Ctrl+Shift+M). Es muss mindestens ein Modifier (Ctrl, Alt, Shift, Win) zusammen mit einer Taste gedrückt werden."/>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Abbrechen" Width="90" Padding="4" Margin="0,0,10,0"
+                    Click="BtnCancel_Click"/>
+            <Button Content="Speichern" Width="90" Padding="4"
+                    FontWeight="Bold"
+                    Click="BtnSave_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
