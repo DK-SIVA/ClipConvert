@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish single-file exe
+        run: dotnet publish ClipConvert/src/ClipConvert/ClipConvert.csproj -c Release -o ClipConvert/publish
+
+      - name: Build installer
+        run: '& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ClipConvert\installer\ClipConvert.iss'
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ClipConvert/output/*.exe
+          generate_release_notes: true
