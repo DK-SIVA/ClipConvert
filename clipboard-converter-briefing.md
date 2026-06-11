@@ -356,7 +356,7 @@ Einfacher Text
 - [ ] Bild-Handling (Base64 → lokale Dateien)
 - [ ] Komplexe Tabellen-Konvertierung
 - [ ] OneNote-spezifische Bereinigung
-- [ ] Updater / Auto-Update Mechanismus
+- [x] Updater / Auto-Update Mechanismus (GitHub Releases)
 
 ### Phase 4 – Distribution
 - [ ] Installer (WiX oder Inno Setup)

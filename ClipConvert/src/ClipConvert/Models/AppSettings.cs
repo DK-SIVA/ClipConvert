@@ -5,6 +5,7 @@ public class AppSettings
     public bool AutoPaste { get; set; } = true;
     public bool ShowToastNotifications { get; set; } = false;
     public bool AutoStart { get; set; } = false;
+    public bool CheckForUpdates { get; set; } = true;
 
     public HotkeyBinding ToMarkdownHotkey { get; set; } = new()
     {

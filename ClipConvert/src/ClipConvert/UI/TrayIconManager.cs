@@ -16,6 +16,7 @@ public class TrayIconManager : IDisposable
 
     public event Action? OnExitRequested;
     public event Action? OnSettingsRequested;
+    public event Action? OnUpdateCheckRequested;
 
     public void Initialize(AppSettings settings)
     {
@@ -28,6 +29,7 @@ public class TrayIconManager : IDisposable
         _richTextLabel.Enabled = false;
         contextMenu.Items.Add(new ToolStripSeparator());
         contextMenu.Items.Add("Einstellungen...", null, (_, _) => OnSettingsRequested?.Invoke());
+        contextMenu.Items.Add("Nach Updates suchen...", null, (_, _) => OnUpdateCheckRequested?.Invoke());
         contextMenu.Items.Add("Info...", null, (_, _) => ShowAbout());
         contextMenu.Items.Add(new ToolStripSeparator());
         contextMenu.Items.Add("Beenden", null, (_, _) => OnExitRequested?.Invoke());
@@ -57,7 +59,7 @@ public class TrayIconManager : IDisposable
     private static void ShowAbout()
     {
         System.Windows.MessageBox.Show(
-            "ClipConvert v1.0\n" +
+            $"ClipConvert v{Services.UpdateService.CurrentVersion}\n" +
             "Markdown \u2194 Rich Text Clipboard Converter\n\n" +
             "\u00A9 2026 DeKode. Alle Rechte vorbehalten.",
             "ClipConvert \u2013 Info",

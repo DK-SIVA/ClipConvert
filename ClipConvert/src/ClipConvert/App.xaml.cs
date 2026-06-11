@@ -12,6 +12,7 @@ public partial class App : System.Windows.Application
     private ClipboardManager? _clipboardManager;
     private TrayIconManager? _trayIconManager;
     private SettingsService? _settingsService;
+    private UpdateService? _updateService;
     private AppSettings? _settings;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -41,7 +42,13 @@ public partial class App : System.Windows.Application
         _trayIconManager = new TrayIconManager();
         _trayIconManager.OnExitRequested += () => Shutdown();
         _trayIconManager.OnSettingsRequested += HandleOpenSettings;
+        _trayIconManager.OnUpdateCheckRequested += () => _ = CheckForUpdatesAsync(manual: true);
         _trayIconManager.Initialize(_settings);
+
+        // Check GitHub for a newer release in the background
+        _updateService = new UpdateService();
+        if (_settings.CheckForUpdates)
+            _ = CheckForUpdatesAsync(manual: false);
 
         // Register global hotkeys
         _hotkeyManager = new HotkeyManager();
@@ -58,6 +65,51 @@ public partial class App : System.Windows.Application
         {
             _trayIconManager.ShowBalloon("ClipConvert gestartet",
                 $"{_settings.ToMarkdownHotkey} → Markdown\n{_settings.ToRichTextHotkey} → Rich Text");
+        }
+    }
+
+    private async Task CheckForUpdatesAsync(bool manual)
+    {
+        try
+        {
+            // Don't compete with app startup; the manual check should respond immediately
+            if (!manual)
+                await Task.Delay(TimeSpan.FromSeconds(10));
+
+            var update = await _updateService!.CheckForUpdateAsync();
+            if (update == null)
+            {
+                if (manual)
+                {
+                    System.Windows.MessageBox.Show(
+                        $"ClipConvert ist aktuell (v{UpdateService.CurrentVersion}).",
+                        "ClipConvert – Update", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                return;
+            }
+
+            var result = System.Windows.MessageBox.Show(
+                $"Eine neue Version ist verfügbar: v{update.Version}\n" +
+                $"Installierte Version: v{UpdateService.CurrentVersion}\n\n" +
+                "Jetzt herunterladen und installieren?\n" +
+                "ClipConvert wird dafür kurz beendet und automatisch neu gestartet.",
+                "ClipConvert – Update verfügbar", MessageBoxButton.YesNo, MessageBoxImage.Information);
+
+            if (result != MessageBoxResult.Yes)
+                return;
+
+            await _updateService.DownloadAndInstallAsync(update);
+            Shutdown();
+        }
+        catch (Exception ex)
+        {
+            // Silent background check stays silent on errors (e.g. offline)
+            if (manual)
+            {
+                System.Windows.MessageBox.Show(
+                    $"Update-Prüfung fehlgeschlagen:\n{ex.Message}",
+                    "ClipConvert – Update", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 

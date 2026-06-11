@@ -19,6 +19,7 @@ A lightweight Windows system tray application that converts clipboard content be
 - **System tray app** — runs quietly in the background with minimal resource usage
 - **Microsoft HTML cleanup** — strips Word/Outlook-specific bloat (MsoNormal, mso-styles, conditional comments)
 - **Inline CSS styling** — headings, code blocks, tables, and blockquotes render correctly in Word/Outlook
+- **Auto-update** — checks GitHub Releases on startup and installs new versions on confirmation
 
 ## Default Hotkeys
 
@@ -57,6 +58,14 @@ The installer offers:
 - Desktop shortcut (optional)
 - Windows autostart (optional)
 - Start Menu entries with uninstaller
+
+### Updates
+
+ClipConvert checks the GitHub Releases of this repository for a newer version on startup
+(and via **right-click tray icon → Nach Updates suchen...**). If an update is available,
+it asks for confirmation, downloads the setup installer, installs silently, and restarts
+the app. The automatic check can be disabled by setting `"CheckForUpdates": false` in
+`%AppData%\ClipConvert\settings.json`.
 
 ### Prerequisites
 
@@ -105,7 +114,8 @@ ClipConvert/
 │   ├── Models/
 │   │   └── AppSettings.cs      # Settings model with hotkey bindings
 │   ├── Services/
-│   │   └── SettingsService.cs   # JSON persistence (%AppData%)
+│   │   ├── SettingsService.cs   # JSON persistence (%AppData%)
+│   │   └── UpdateService.cs     # Auto-update via GitHub Releases
 │   └── UI/
 │       ├── SettingsWindow.xaml  # Hotkey configuration dialog
 │       └── TrayIconManager.cs   # System tray icon + context menu
@@ -126,6 +136,7 @@ ClipConvert/
 
 Settings are stored in `%AppData%\ClipConvert\settings.json` and include:
 - Custom hotkey bindings (modifiers + key)
+- Automatic update check on startup (`CheckForUpdates`, default `true`)
 
 ---
 
