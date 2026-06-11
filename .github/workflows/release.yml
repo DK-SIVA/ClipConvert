@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v1.1.0); created if it doesn't exist"
+        required: true
 
 permissions:
   contents: write
@@ -27,5 +32,6 @@ jobs:
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
           files: ClipConvert/output/*.exe
           generate_release_notes: true
