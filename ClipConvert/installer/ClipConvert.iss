@@ -2,7 +2,7 @@
 ; Requires Inno Setup 6+ (https://jrsoftware.org/isinfo.php)
 
 #define MyAppName "ClipConvert"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.1.1"
 #define MyAppPublisher "DeKode"
 #define MyAppCopyright "Copyright (c) 2026 DeKode"
 #define MyAppExeName "ClipConvert.exe"
